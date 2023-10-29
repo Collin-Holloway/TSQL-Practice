@@ -65,6 +65,15 @@ GO
 
 
 
+EXEC sp_help 'Application.People';
+GO
+
+SELECT name,
+    definition,
+    is_persisted
+FROM sys.computed_columns AS cc
+WHERE cc.object_id = OBJECT_ID('Application.People');  
+GO
 
 /* 
 Q2
