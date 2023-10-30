@@ -25,7 +25,7 @@ GO
 Homework documentation:
 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌 🚌*/
 
-USE WideWorldImporters;
+--USE WideWorldImporters;
 GO
 
 --Not sure how to start? Get stuck? These pages will un-stick you!
@@ -41,7 +41,7 @@ GO
 Homework 
 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 */
 
-USE WideWorldImporters;
+--USE WideWorldImporters;
 GO
 
 
@@ -88,8 +88,8 @@ GO
 */
 
 SELECT ap.[FullName],
-       ap.[PreferredName],
-       ap.[EmailAddress] AS [Email]
+    ap.[PreferredName],
+    ap.[EmailAddress] AS [Email]
 FROM Application.people AS ap;
 GO
 
@@ -114,8 +114,8 @@ GO
 
 
 SELECT ap.[FullName],
-       ap.[PreferredName],
-       ap.[EmailAddress] AS [Email]
+    ap.[PreferredName],
+    ap.[EmailAddress] AS [Email]
 FROM Application.people AS ap
 WHERE ap.[EmailAddress] IS NULL;
 GO
@@ -152,10 +152,10 @@ GO
 
 
 SELECT ap.[FullName],
-       ap.[PreferredName],
-       ap.[EmailAddress] AS [Email]
+    ap.[PreferredName],
+    ap.[EmailAddress] AS [Email]
 FROM Application.people AS ap
-WHERE ap.[PreferredName] = 'Agrita';
+WHERE ap.[PreferredName] = N'Agrita';
 GO
 
 
@@ -180,10 +180,10 @@ GO
 
 
 SELECT ap.[FullName],
-       ap.[PreferredName],
-       ap.[EmailAddress] AS [Email]
+    ap.[PreferredName],
+    ap.[EmailAddress] AS [Email]
 FROM Application.people AS ap
-WHERE ap.[PreferredName] LIKE 'A%'
+WHERE ap.[PreferredName] LIKE N'A%'
 GO
 
 
@@ -207,14 +207,28 @@ GO
 */
 
 SELECT ap.[FullName],
-       ap.[PreferredName],
-       ap.[EmailAddress] AS [Email]
+    ap.[PreferredName],
+    ap.[EmailAddress] AS [Email]
 FROM Application.people AS ap
-WHERE ap.[PreferredName] COLLATE Latin1_General_CI_AS LIKE 'a%';
+WHERE ap.[PreferredName] LIKE 'a%';
 GO
 
 
+SELECT name,
+    description
+FROM fn_helpcollations()
+WHERE name = 'SQL_Latin1_General_CP1_CS_AS';
+GO
 
+
+SELECT ap.[FullName],
+    ap.[PreferredName],
+    ap.[EmailAddress] AS [Email]
+FROM Application.people AS ap
+WHERE [PreferredName] COLLATE SQL_Latin1_General_CP1_CS_AS LIKE N'%a';
+GO
+
+--CS = case sensative
 
 
 
@@ -235,11 +249,12 @@ GO
 
 
 SELECT ap.[FullName],
-       ap.[PreferredName],
-       ap.[EmailAddress] AS [Email]
+    ap.[PreferredName],
+    ap.[EmailAddress] AS [Email]
 FROM Application.people AS ap
-WHERE ap.[PreferredName] LIKE '%y%'
-    AND ap.[EmailAddress] LIKE '% %';
+WHERE ap.[PreferredName] LIKE N'%y%'
+    AND ap.[EmailAddress] LIKE N'% %'
+ORDER BY EmailAddress ASC;
 GO
 
 
@@ -267,9 +282,9 @@ GO
 */
 
 
-SELECT TOP (10) 
-       ap.[FullName],
-       LEN(ap.[FullName]) AS [Len Full Name]
+SELECT TOP (10)
+    ap.[FullName],
+    LEN(ap.[FullName]) AS [Len Full Name]
 FROM Application.people AS ap
 ORDER BY [Len Full Name] DESC;
 GO
@@ -302,11 +317,11 @@ GO
 
 
 SELECT ap.[FullName],
-       LEN(ap.[FullName]) AS [Len Full Name]
+    LEN(ap.[FullName]) AS [Len Full Name]
 FROM Application.people AS ap
 ORDER BY [Len Full Name] DESC
-OFFSET 11 ROWS
-FETCH NEXT 20 ROWS ONLY;
+OFFSET 10 ROWS
+FETCH NEXT 10 ROWS ONLY;
 GO
 
 
