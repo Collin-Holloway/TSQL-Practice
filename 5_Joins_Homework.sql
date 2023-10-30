@@ -24,7 +24,7 @@ GO
 Homework
 *****************************************************************************/
 
-USE WideWorldImporters;
+--USE WideWorldImporters;
 GO
 
 --The questions in this homework refer to two tables:
@@ -51,7 +51,12 @@ This should return 53 rows.
 */
 
 
-
+SELECT t1.Stateprovincename,
+    t2.CountryName
+FROM Application.StateProvinces AS t1
+    INNER JOIN Application.Countries AS t2
+    ON t1.CountryID = t2.CountryID;
+GO
 
 
 
@@ -71,10 +76,19 @@ and one with a RIGHT OUTER JOIN
 */
 
 
+SELECT t2.Stateprovincename,
+    t1.CountryName
+FROM Application.Countries AS t1
+    LEFT OUTER JOIN Application.StateProvinces AS t2
+    ON t1.CountryID = t2.CountryID
+GO
 
-
-
-
+SELECT t2.Stateprovincename,
+    t1.CountryName
+FROM Application.Countries AS t1
+    RIGHT OUTER JOIN Application.StateProvinces AS t2
+    ON t1.CountryID = t2.CountryID
+GO
 
 
 /* 
@@ -88,10 +102,20 @@ The query should return 189 rows.
 */
 
 
+SELECT Countryname
+FROM Application.Countries AS t1
+    LEFT OUTER JOIN Application.StateProvinces AS t2
+    ON t1.countryname = t2.StateProvinceName
+WHERE t2.StateProvinceName IS NULL;
+GO
 
+SELECT stateprovincename
+FROM Application.StateProvinces;
+GO
 
-
-
+SELECT countryname
+FROM Application.Countries;
+GO
 
 /* 
 Q4
@@ -103,8 +127,11 @@ This should return one row.
 */
 
 
-
-
+SELECT DISTINCT(countryname)
+FROM Application.Countries AS t1
+    INNER JOIN Application.StateProvinces AS t2
+    ON t1.CountryID = t2.CountryID;
+GO
 
 
 
@@ -119,9 +146,11 @@ Return rows for all CountryNames and related StateProvinceNames
 
 
 
-
-
-
+SELECT CountryName, StateProvinceName
+FROM Application.Countries AS t1
+    FULL OUTER JOIN Application.StateProvinces AS t2
+    ON t1.CountryID = t2.CountryID;
+GO
 
 
 /* 
@@ -140,7 +169,11 @@ So this should return 190 x 53 = 10070 rows
 
 
 
-
+SELECT Countryname, StateProvinceName, StateProvinceID
+FROM Application.Countries AS t1
+    CROSS JOIN Application.StateProvinces AS t2
+ORDER BY CountryName, StateProvinceName, StateProvinceID;
+GO
 
 
 
@@ -159,8 +192,12 @@ Return one row (where CountryID = 100).
 Use a self-join to get this result.
 */
 
-
-
+SELECT t1.Countryname, t1.LatestRecordedPopulation, t2.CountryName, t2.LatestRecordedPopulation
+FROM Application.Countries AS t1
+LEFT JOIN Application.Countries AS t2
+ON t1.CountryID = t2.CountryID
+WHERE t1.CountryID = 100;
+GO
 
 
 
@@ -169,8 +206,8 @@ Use a self-join to get this result.
 
 --Simple query to check your work on this problem
 SELECT CountryID,
-       CountryName,
-       LatestRecordedPopulation
+    CountryName,
+    LatestRecordedPopulation
 FROM Application.Countries
 ORDER BY LatestRecordedPopulation DESC;
 GO
