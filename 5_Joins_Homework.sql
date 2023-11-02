@@ -212,4 +212,4 @@ FROM Application.Countries
 ORDER BY LatestRecordedPopulation DESC;
 GO
 
-
+--
